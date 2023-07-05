@@ -1,21 +1,21 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
-	"github.com/go-redis/redis"
+	"github.com/gorilla/mux"
 )
 
 func main() {
-	client := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "",
-		DB:       0,
-	})
+	router := mux.NewRouter()
 
-	pong, err := client.Ping().Result()
-	fmt.Println(pong, err)
-	http.HandleFunc("/api/todo", HTTPHandler)
-	http.ListenAndServe(":4000", nil)
+	router.HandleFunc("/api/todos/{id}", GetTodo).Methods(http.MethodGet)
+	router.HandleFunc("/api/todos", CreateTodo).Methods(http.MethodPost)
+	router.HandleFunc("/api/todos/{id}", UpdateTodo).Methods(http.MethodPut)
+	router.HandleFunc("/api/todos/{id}", DeleteTodo).Methods(http.MethodDelete)
+	router.HandleFunc("/api/todos", GetTodos).Methods(http.MethodGet)
+	router.HandleFunc("/api/todos", DeleteTodos).Methods(http.MethodDelete)
+	router.HandleFunc("/", HTTPHandler)
+
+	http.ListenAndServe(":4000", router)
 }
