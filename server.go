@@ -1,14 +1,12 @@
 package main
 
 import (
-	"fmt"
+	"handler"
+
 	"net/http"
 )
 
-func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Hello, HTTPサーバ")
-}
 func main() {
-	http.HandleFunc("/api/todo", handler)
+	http.HandleFunc("/api/todo", handler.HTTPHandler)
 	http.ListenAndServe(":4000", nil)
 }
