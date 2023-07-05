@@ -1,8 +1,6 @@
-package main_test
+package main
 
 import (
-	"handler"
-
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -12,7 +10,7 @@ import (
 func TestServer(t *testing.T) {
 	w := httptest.NewRecorder()
 	r, _ := http.NewRequest("GET", "/api/todo", nil)
-	handler.HTTPHandler(w, r)
+	HTTPHandler(w, r)
 	res := w.Result()
 	defer res.Body.Close()
 	if res.StatusCode != http.StatusOK {
