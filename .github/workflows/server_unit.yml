@@ -17,8 +17,18 @@ jobs:
     name: Unit Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Copy env file
+        run: |
+          cp .env.example .env
+      - name: Wait for DB to be ready
+        run: |
+          docker compose up -d
+          until docker compose exec -T redis redis-cli ping; do
+            echo 'Waiting for DB to be ready...'
+            sleep 1
+          done
       - name: Unit Test
         run: |
-          cd .
           go test -v
