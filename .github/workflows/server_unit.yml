@@ -19,6 +19,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+      - name: Copy env file
+        run: |
+          cp .env.example .env
       - name: Wait for DB to be ready
         run: |
           docker compose up -d
