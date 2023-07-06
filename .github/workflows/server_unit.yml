@@ -17,10 +17,12 @@ jobs:
     name: Unit Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Setup Docker
+        uses: docker-practice/actions-setup-docker@v1
       - name: Wait for DB to be ready
         run: |
-          until docker compose up; do
+          docker-compose up -d
+          until docker-compose exec -T redis redis-cli ping; do
             echo 'Waiting for DB to be ready...'
             sleep 1
           done
