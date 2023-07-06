@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/go-redis/redis"
 	"github.com/gorilla/mux"
 )
 
@@ -18,12 +17,6 @@ type TodoResult struct {
 type TodoResultWithoutID struct {
 	Task string `json:"task"`
 }
-
-var client = redis.NewClient(&redis.Options{
-	Addr:     "localhost:6379",
-	Password: "mypassword",
-	DB:       0,
-})
 
 func GetTodo(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
