@@ -18,7 +18,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Wait for DB to be ready
+        run: |
+          until docker compose up; do
+            echo 'Waiting for DB to be ready...'
+            sleep 1
+          done
       - name: Unit Test
         run: |
-          cd .
           go test -v
