@@ -21,8 +21,8 @@ jobs:
         uses: docker-practice/actions-setup-docker@v1
       - name: Wait for DB to be ready
         run: |
-          docker-compose up -d
-          until docker-compose exec -T redis redis-cli ping; do
+          docker compose up -d
+          until docker compose exec -T redis redis-cli ping; do
             echo 'Waiting for DB to be ready...'
             sleep 1
           done
