@@ -17,8 +17,8 @@ jobs:
     name: Unit Test
     runs-on: ubuntu-latest
     steps:
-      - name: Setup Docker
-        uses: docker-practice/actions-setup-docker@v1
+      - name: Checkout repository
+        uses: actions/checkout@v2
       - name: Wait for DB to be ready
         run: |
           docker compose up -d
