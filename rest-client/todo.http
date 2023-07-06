@@ -13,17 +13,21 @@ POST {{host}}/api/todos HTTP/1.1
 content-type: application/json
 
 {
-	"todos": "test2"
+	"task": "test"
 }
 
 ###
-PUT {{host}}/api/todos HTTP/1.1
+PUT {{host}}/api/todos/1 HTTP/1.1
 content-type: application/json
 
 {
-	"todo": "test_updated"
+	"task": "testupdate"
 }
 
 ###
 DELETE {{host}}/api/todos HTTP/1.1
+content-type: application/json
+
+###
+DELETE {{host}}/api/todos/1 HTTP/1.1
 content-type: application/json
