@@ -1,5 +1,33 @@
 @host = http://localhost:4000
 
 ###
-GET {{host}}/api/todo HTTP/1.1
+GET {{host}}/api/todos HTTP/1.1
+content-type: application/json
+
+###
+GET {{host}}/api/todos/2 HTTP/1.1
+content-type: application/json
+
+###
+POST {{host}}/api/todos HTTP/1.1
+content-type: application/json
+
+{
+	"task": "test"
+}
+
+###
+PUT {{host}}/api/todos/1 HTTP/1.1
+content-type: application/json
+
+{
+	"task": "testupdate"
+}
+
+###
+DELETE {{host}}/api/todos HTTP/1.1
+content-type: application/json
+
+###
+DELETE {{host}}/api/todos/1 HTTP/1.1
 content-type: application/json
