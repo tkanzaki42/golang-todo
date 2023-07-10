@@ -1,17 +1,11 @@
 name: Unit Test
 on:
   pull_request:
-    paths:
-      - server.go
-      - vendor/handler/*
-      - .github/workflows/server_unit.yml
+    branches:
+      - main
   push:
     branches:
       - main
-    paths:
-      - server.go
-      - vendor/handler/*
-      - .github/workflows/server_unit.yml
 jobs:
   unit-test:
     name: Unit Test
