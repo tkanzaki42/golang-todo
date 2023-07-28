@@ -40,7 +40,11 @@ func GetTodo(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(getTodoResult)
+	err = json.NewEncoder(w).Encode(getTodoResult)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 }
 
 func CreateTodo(w http.ResponseWriter, r *http.Request) {
@@ -127,14 +131,14 @@ func DeleteTodo(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNoContent)
 }
 
-func GetTodos(w http.ResponseWriter, r *http.Request) {
+func GetTodos(w http.ResponseWriter, _ *http.Request) {
 	todoIds, err := client.LRange("todos", 0, -1).Result()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	todos := []TodoResult{}
+	var todos []TodoResult
 	for _, id := range todoIds {
 		todo, err := client.Get("todo:" + id).Result()
 		if err != nil {
@@ -153,10 +157,14 @@ func GetTodos(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(todos)
+	err = json.NewEncoder(w).Encode(todos)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 }
 
-func DeleteTodos(w http.ResponseWriter, r *http.Request) {
+func DeleteTodos(w http.ResponseWriter, _ *http.Request) {
 	err := client.Del("todos").Err()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -165,6 +173,10 @@ func DeleteTodos(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNoContent)
 }
 
-func HTTPHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Hello, HTTPサーバ")
+func HTTPHandler(w http.ResponseWriter, _ *http.Request) {
+	_, err := fmt.Fprint(w, "Hello, HTTPサーバ")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 }

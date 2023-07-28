@@ -34,5 +34,8 @@ func main() {
 	router.HandleFunc("/api/todos", DeleteTodos).Methods(http.MethodDelete)
 	router.HandleFunc("/", HTTPHandler)
 
-	http.ListenAndServe(":4000", router)
+	err = http.ListenAndServe(":4000", router)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
